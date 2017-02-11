@@ -49,12 +49,23 @@ try{
 /* Get Employee Service. */
 router.get('/cforce/v1/getEmployeeDetails', function(req, res, next) {
     try {
+
     	/*var roleId = req.param('roleId');
   		var deptId = req.param('deptId');*/
-  		var query = url.parse(req.url,true).query;
-  		console.log(query);
-        var roleId = query.roleId;
-        var deptId = query.deptId;
+
+  		//var query = url.parse(req.url,true).query;
+        //console.log(req);
+        console.log(req.query);
+        console.log(req.query.roleID);
+        console.log(req.query.deptID);
+        console.log(req.query[0]);
+        var roleId = req.query.roleID;
+
+            if (req.query.roleId != undefined) { console.log("why"); }
+        else{
+            console.log("shit");
+        }
+        var deptId = req.query.deptID;
         console.log(roleId);
         console.log(deptId);
         req.getConnection(function(err, conn) {
@@ -62,7 +73,9 @@ router.get('/cforce/v1/getEmployeeDetails', function(req, res, next) {
                 console.error('SQL Connection error: ', err);
                 return next(err);
             } else {
+                console.log("here");
                 conn.query('select E.Emp_Name, Date_Format(E.Doj,"%d-%m-%Y") AS DOJ, D.Dept_Name, R.Role_Name from employee E, role R, department D where E.Role_Id = R.Role_Id and E.Dept_Id = D.Dept_Id and E.Role_Id = ? and E.Dept_Id = ? order by DOJ', [roleId,deptId], function(err, rows, fields) {
+                 //console.log(query.sql);
                     if (err) {
                         console.error('SQL error: ', err);
                         return next(err);
