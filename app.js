@@ -12,11 +12,18 @@ var connection = require("express-myconnection");
 var app = express();
 
 // Create Sql Connection
-app.use(connection(mysql, {
+/*app.use(connection(mysql, {
 host: "localhost",
 user: "root",
 password: "",
 database: "test"
+},'request'));*/
+
+app.use(connection(mysql, {
+host: "db.cmsonline.com",
+user: "cforce",
+password: "XVyNcSPa6x9LWf9y",
+database: "CMC"
 },'request'));
 
 // view engine setup

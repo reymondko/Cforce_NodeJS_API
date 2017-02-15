@@ -49,7 +49,6 @@ try{
 /* Get Employee Service. */
 router.get('/cforce/v1/getEmployeeDetails', function(req, res, next) {
     try {
-
     	/*var roleId = req.param('roleId');
   		var deptId = req.param('deptId');*/
 
@@ -94,3 +93,86 @@ router.get('/cforce/v1/getEmployeeDetails', function(req, res, next) {
         return next(ex);
     }
 });
+
+
+
+/* Get Merchants. */
+router.get('/cforce/v1/getMerchants', function(req, res, next) {
+    try {
+
+        /*var roleId = req.param('roleId');
+        var deptId = req.param('deptId');*/
+
+        //var query = url.parse(req.url,true).query;
+        //console.log(req);
+        console.log(req.query);
+        console.log(req.query.ID);
+        var ID = req.query.ID;
+        console.log(ID);
+        req.getConnection(function(err, conn) {
+            if (err) {
+                console.error('SQL Connection error: ', err);
+                return next(err);
+            } else {
+                console.log("here");
+                conn.query('select * from CMC_Merchant m where m.ID = ?', ID, function(err, rows, fields) {
+                 //console.log(query.sql);
+                    if (err) {
+                        console.error('SQL error: ', err);
+                        return next(err);
+                    }
+                    var resEmp = [];
+                    for (var empIndex in rows) {
+                        var empObj = rows[empIndex];
+                        resEmp.push(empObj);
+                    }
+                    res.json(resEmp);
+                });
+            }
+        });
+    } catch (ex) {
+        console.error("Internal error:" + ex);
+        return next(ex);
+    }
+});
+
+/* Get Merchant details. */
+router.get('/cforce/v1/getMerchantsDetails', function(req, res, next) {
+    try {
+
+        /*var roleId = req.param('roleId');
+        var deptId = req.param('deptId');*/
+
+        //var query = url.parse(req.url,true).query;
+        //console.log(req);
+        console.log(req.query);
+        console.log(req.query.ID);
+        var ID = req.query.ID;
+        console.log(ID);
+        req.getConnection(function(err, conn) {
+            if (err) {
+                console.error('SQL Connection error: ', err);
+                return next(err);
+            } else {
+                console.log("here");
+                conn.query('select * from CMC_Merchant m where m.ID = ?', ID, function(err, rows, fields) {
+                 //console.log(query.sql);
+                    if (err) {
+                        console.error('SQL error: ', err);
+                        return next(err);
+                    }
+                    var resEmp = [];
+                    for (var empIndex in rows) {
+                        var empObj = rows[empIndex];
+                        resEmp.push(empObj);
+                    }
+                    res.json(resEmp);
+                });
+            }
+        });
+    } catch (ex) {
+        console.error("Internal error:" + ex);
+        return next(ex);
+    }
+});
+
